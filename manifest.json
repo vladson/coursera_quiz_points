@@ -1,5 +1,5 @@
 {
-    "manifest_version": 1,
+    "manifest_version": 2,
 
     "name": "Coursera quiz points and ratio",
     "description": "This extension gives you ability to summ points that you gained from quizzes taken and calculate your rate.",
@@ -9,7 +9,7 @@
         "https://www.coursera.org/"
     ],
     "browser_action": {
-        "default_icon": "icon.png",
+        "default_icon": "resources/icon.png",
         "default_popup": "popup.html"
     }
 }
