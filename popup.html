@@ -1,0 +1,33 @@
+<html>
+<script type="text/javascript" src="libs/zepto-min.js"></script>
+<script type="text/javascript" src="build/popup.js"></script>
+<style>
+    body {
+        background-color: #DDD;
+        padding: 20px;
+        border-radius: 15px;
+        font: normal 80% Arial, Helvetica, sans-serif;
+        width: 20em;
+    }
+    input {
+        font-size:18px;
+    }
+
+    #infos {
+        padding:5px;
+        font: normal 75% Arial, Helvetica, sans-serif;
+        color: #333;
+    }
+</style>
+<div id='settings'>
+    <h1>Coursera Score</h1>
+    <form id="score-form" action="#">
+        <p>Add scores for additional assignments like peer assignments in format [yours]/[maximum posible]</p>
+        <input id="additional-score" type="text"/>
+        <p>Example: 18/20.</p>
+        <div id="infos">
+            <p>Addon is under development</p>
+        </div>
+    </form>
+</div>
+</html>
