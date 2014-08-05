@@ -5,9 +5,18 @@
     "version": "1.0",
 
     "permissions": [
-        "tabs", "https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz"
+        "activeTab", "https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz"
+    ],
+    "content_scripts": [
+        {
+            "js": ["libs/jquery-2.1.1.min.js", "build/page.js"],
+            "matches": ["https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz",
+                "https://class.coursera.org/*/assignment", "http://class.coursera.org/*/assignment"],
+            "css": ["resources/page.css"]
+        }
     ],
     "browser_action": {
+        "name": "Click to calculate your score",
         "default_icon": "resources/icon.png",
         "default_popup": "popup.html"
     }

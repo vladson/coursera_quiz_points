@@ -1,5 +1,6 @@
 <html>
-<script type="text/javascript" src="libs/zepto-min.js"></script>
+<script type="text/javascript" src="libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="libs/evil-blocks.js"></script>
 <script type="text/javascript" src="build/popup.js"></script>
 <style>
     body {
@@ -21,10 +22,10 @@
 </style>
 <div id='settings'>
     <h1>Coursera Score</h1>
-    <form id="score-form" action="#">
-        <p>Add scores for additional assignments like peer assignments in format [yours]/[maximum posible]</p>
-        <input id="additional-score" type="text"/>
-        <p>Example: 18/20.</p>
+    <form data-block=score-form" action="#">
+        <div data-block="course_header"><h1></h1></div>
+        <div data-block="additional_assignments"></div>
+        <input data-role="add_assignment" type="text" placeholder="18/20"/>
         <div id="infos">
             <p>Addon is under development</p>
         </div>
