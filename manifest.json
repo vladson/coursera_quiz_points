@@ -9,7 +9,7 @@
     ],
     "content_scripts": [
         {
-            "js": ["libs/jquery-2.1.1.min.js", "build/page.js"],
+            "js": ["libs/jquery-2.1.1.min.js", "libs/underscore-min.js", "build/page.js"],
             "matches": ["https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz",
                 "https://class.coursera.org/*/assignment", "http://class.coursera.org/*/assignment"],
             "css": ["resources/page.css"]
