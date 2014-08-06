@@ -23,16 +23,31 @@ class ShowBlock
       @got = _.reduce(grades, (memo, i) ->
         memo + i[0] unless isNaN(i[0])
       , 0)
-      chrome.storage.local.get 'bioinform-001', (datum)->
-#          console.log datum
+      chrome.storage.local.get @courseName, (datum)=>
+        datum.points ||=
+          quiz:
+            pos: 0
+            got: 0
+          assignment:
+            pos: 0
+            got: 0
+          additional: []
 
-      chrome.runtime.sendMessage
-          type: "updatePoints"
-          course_name: @courseName
-          got: @got
+        datum.points[@pointsType] =
           pos: @pos
-        , (response)->
-            console.log response
+          got: @got
+        space = {}
+        space[@courseName] = datum
+        console.log space
+        chrome.storage.local.set space
+
+#      chrome.runtime.sendMessage
+#          type: "updatePoints"
+#          course_name: @courseName
+#          got: @got
+#          pos: @pos
+#        , (response)->
+#            console.log response
       $('.show_block__points_pos').text(@pos)
       $('.show_block__points_got').text(@got)
       $('.show_block__percent').text(Math.round((@got/@pos)*100,2))
