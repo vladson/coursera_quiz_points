@@ -10,11 +10,9 @@ class ShowBlock
 
   constructor: ->
       params = document.URL.match(/https?:\/\/class.coursera.org\/([a-zA-Z0-9-]+)\/(\w+)/).slice(1,3)
-      console.log params
       @courseName = params[0]
       @pointsType = params[1]
       $('.course-navbar-list').prepend($(ShowBlock.LAYOUT))
-      console.log 'rendering show block'
       @recalculatePoints()
 
   recalculatePoints: ->
@@ -25,6 +23,16 @@ class ShowBlock
       @got = _.reduce(grades, (memo, i) ->
         memo + i[0] unless isNaN(i[0])
       , 0)
+      chrome.storage.local.get 'bioinform-001', (datum)->
+#          console.log datum
+
+      chrome.runtime.sendMessage
+          type: "updatePoints"
+          course_name: @courseName
+          got: @got
+          pos: @pos
+        , (response)->
+            console.log response
       $('.show_block__points_pos').text(@pos)
       $('.show_block__points_got').text(@got)
       $('.show_block__percent').text(Math.round((@got/@pos)*100,2))

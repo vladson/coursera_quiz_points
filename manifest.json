@@ -5,7 +5,7 @@
     "version": "1.0",
 
     "permissions": [
-        "activeTab", "https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz"
+        "activeTab", "https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz", "storage"
     ],
     "content_scripts": [
         {
@@ -19,5 +19,8 @@
         "name": "Click to calculate your score",
         "default_icon": "resources/icon.png",
         "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": ["/build/background.js"]
     }
 }
