@@ -13,6 +13,7 @@ class ShowBlock
       @courseName = params[0]
       @pointsType = params[1]
       $('.course-navbar-list').prepend($(ShowBlock.LAYOUT))
+      chrome.storage.onChanged.addListener @displayPoints
       @recalculatePoints()
 
   recalculatePoints: ->
@@ -24,6 +25,8 @@ class ShowBlock
         memo + i[0] unless isNaN(i[0])
       , 0)
       chrome.storage.local.get @courseName, (datum)=>
+        console.log 'datum'
+        console.log datum
         datum.points ||=
           quiz:
             pos: 0
@@ -33,25 +36,28 @@ class ShowBlock
             got: 0
           additional: []
 
-        datum.points[@pointsType] =
-          pos: @pos
-          got: @got
+        if @pos && @got
+          datum.points[@pointsType] =
+            pos: @pos
+            got: @got
         space = {}
         space[@courseName] = datum
+        console.log 'space'
         console.log space
         chrome.storage.local.set space
 
-#      chrome.runtime.sendMessage
-#          type: "updatePoints"
-#          course_name: @courseName
-#          got: @got
-#          pos: @pos
-#        , (response)->
-#            console.log response
-      $('.show_block__points_pos').text(@pos)
-      $('.show_block__points_got').text(@got)
-      $('.show_block__percent').text(Math.round((@got/@pos)*100,2))
 
+  displayPoints: (object) =>
+    console.log 'changed'
+    console.log object[@courseName].newValue
+    total_pos = 0
+    total_got = 0
+    total_pos += object[@courseName].newValue.points[type].pos for type in ['quiz', 'assignment']
+    total_got += object[@courseName].newValue.points[type].got for type in ['quiz', 'assignment']
+    $('.show_block__points_pos').text(total_pos)
+    $('.show_block__points_got').text(total_got)
+    total_percent = Math.round((total_got / total_pos) * 100, 2)
+    $('.show_block__percent').text(total_percent) unless isNaN(total_percent)
 
   pointsGetters:
       "quiz": ->
