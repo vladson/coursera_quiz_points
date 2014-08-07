@@ -10,6 +10,15 @@ evil.block '@@additional_scores',
     "
 
   init: ->
+    chrome.runtime.sendMessage
+      type: "getCourse"
+    , (response) =>
+        console.log response
+        console.log runtime.lastError
+        if response.courseName
+          @courseName = response.courseName
+          @courseTitle = response.courseTitle
+          @course_title.text(@courseTitle)
 
   'submit on @score_form': (e) ->
     e.preventDefault()
@@ -55,9 +64,6 @@ evil.block '@@additional_scores',
 
 
 evil.block '@@score_item',
-
-  init: ->
-    console.log 'Vitalised'
 
   'click on @close': (e)->
     e.preventDefault()

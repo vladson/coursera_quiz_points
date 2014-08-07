@@ -6,9 +6,10 @@
 <link href="resources/popup.css" rel="stylesheet" type="text/css" />
 <div id='settings'  data-block="additional_scores">
     <h1>Coursera Score</h1>
+
+    <h2 data-block="course_title"></h2>
+    <p>Here are additional points for course (peer assignments).</p>
     <form data-role="score_form" action="#">
-        <p>Add scores for additoinal activities: peer assignments or other stuff.</p>
-        <div data-block="course_header"><h1></h1></div>
         <div data-block="additional_assignments"></div>
         <label> Name of assignment:
             <input data-role="assignment_name" data-regex="\S+" data-error="Input right name" type="text" name="name" class="assignment_name" placeholder="Peer 1"/>

@@ -9,11 +9,17 @@ class ShowBlock
                 </li>"
 
   constructor: ->
-      chrome.runtime.sendMessage
-        type: 'showPageAction'
       params = document.URL.match(/https?:\/\/class.coursera.org\/([a-zA-Z0-9-]+)\/(\w+)/).slice(1,3)
       @courseName = params[0]
       @pointsType = params[1]
+      @courseTitle = $('h1.course-topbanner-header a').text()
+
+      chrome.runtime.sendMessage
+        type: 'showPageAction'
+        courseName: @courseName
+        courseTitle: @courseTitle
+
+
       $('.course-navbar-list').prepend($(ShowBlock.LAYOUT))
       chrome.storage.onChanged.addListener @displayPoints
       @recalculatePoints()
