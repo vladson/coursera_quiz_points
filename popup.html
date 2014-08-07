@@ -1,34 +1,39 @@
 <html>
 <script type="text/javascript" src="libs/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="libs/evil-blocks.js"></script>
+<script type="text/javascript" src="/libs/underscore-min.js"></script>
 <script type="text/javascript" src="build/popup.js"></script>
-<style>
-    body {
-        background-color: #DDD;
-        padding: 20px;
-        border-radius: 15px;
-        font: normal 80% Arial, Helvetica, sans-serif;
-        width: 20em;
-    }
-    input {
-        font-size:18px;
-    }
-
-    #infos {
-        padding:5px;
-        font: normal 75% Arial, Helvetica, sans-serif;
-        color: #333;
-    }
-</style>
-<div id='settings'>
+<link href="resources/popup.css" rel="stylesheet" type="text/css" />
+<div id='settings'  data-block="additional_scores">
     <h1>Coursera Score</h1>
-    <form data-block=score-form" action="#">
+    <form data-role="score_form" action="#">
+        <p>Add scores for additoinal activities: peer assignments or other stuff.</p>
         <div data-block="course_header"><h1></h1></div>
         <div data-block="additional_assignments"></div>
-        <input data-role="add_assignment" type="text" placeholder="18/20"/>
-        <div id="infos">
-            <p>Addon is under development</p>
-        </div>
+        <label> Name of assignment:
+            <input data-role="assignment_name" data-regex="\S+" data-error="Input right name" type="text" name="name" class="assignment_name" placeholder="Peer 1"/>
+            <span class="error"></span>
+        </label>
+        <label> Score for assignment:
+            <input data-role="assignment_score" data-regex="\d+\s*\/\s*\d+" data-error="Input score in format [0-9]/[0-9]" type="text" name="score" class="assignment_score" placeholder="18/20"/>
+            <span class="error"></span>
+        </label>
+        <input type="submit" name="Add" data-role="add_score" />
     </form>
+    <ul data-role="scores_list" class="scores_list">
+        <li data-block="score_item">
+            <i data-role="index" data-index="2"></i>
+            <a data-role="close" class="close_btn"></a>
+            <span data-role="name">Peer 1</span>:<span data-role="score">18/20</span>
+        </li>
+        <li data-block="score_item">
+            <i data-role="index" data-index="3"></i>
+            <a data-role="close" class="close_btn"></a>
+            <span data-role="name">Peer 1</span>:<span data-role="score">18/20</span>
+        </li>
+    </ul>
+    <div id="infos">
+        <p>Addon is under development</p>
+    </div>
 </div>
 </html>

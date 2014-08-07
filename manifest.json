@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Coursera quiz points and ratio",
-    "description": "This extension gives you ability to summ points that you gained from quizzes taken and calculate your rate.",
+    "name": "Coursera score",
+    "description": "This extension gives you ability to sum points that you gained from quizzes and assignments taken and calculate your rate.",
     "version": "1.0",
 
     "permissions": [
@@ -15,12 +15,12 @@
             "css": ["resources/page.css"]
         }
     ],
-    "browser_action": {
-        "name": "Click to calculate your score",
+    "background": {
+      "scripts": ["/build/background.js"]
+    },
+    "page_action": {
+        "default_name": "Calculate your score",
         "default_icon": "resources/icon.png",
         "default_popup": "popup.html"
-    },
-    "background": {
-        "scripts": ["/build/background.js"]
     }
 }
