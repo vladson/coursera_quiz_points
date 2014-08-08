@@ -1,34 +1,27 @@
-chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
-  if request && request.type == 'showPageAction'
-    new DataProcessor
-      courseName: request.courseName
-      courseTitle: request.courseTitle
-      tabId: sender.tab.id
-  sendResponse
-    courseName: 'courseName'
-    courseTitle: '@courseTitle'
-
 class DataProcessor
 
-  constructor: (options) ->
-    options.courseName ||= ""
-    options.courseTitle ||= "This course"
-    @courseName = options.courseName
-    @courseTitle = options.courseTitle
+  constructor: ->
+    @coursesHolder = {}
 
     chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
-      if request && request.type == "getCourse"
-        sendResponse
-          courseName: @courseName
-          courseTitle: @courseTitle
+      if request
+        switch request.type
+          when "showPageAction"
+            @coursesHolder[sender.tab.id] =
+              courseName: request.courseName
+              courseTitle: request.courseTitle
+            chrome.pageAction.show(sender.tab.id)
+          when "getCourse"
+            sendResponse
+              courseName: @coursesHolder[sender.tab.id].courseName
+              courseTitle: @coursesHolder[sender.tab.id].courseTitle
+          else
+            sendResponse
+              error: 'Unidentified Exception'
 
-    chrome.pageAction.show(options.tabId)
 
   storeData: (obj) ->
 
   calculatePoints: ->
 
-
-
-
-
+new DataProcessor
