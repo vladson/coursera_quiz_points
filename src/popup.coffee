@@ -10,15 +10,19 @@ evil.block '@@additional_scores',
     "
 
   init: ->
-    chrome.runtime.sendMessage
-      type: "getCourse"
-    , (response) =>
-        console.log response
-        console.log runtime.lastError
-        if response.courseName
-          @courseName = response.courseName
-          @courseTitle = response.courseTitle
-          @course_title.text(@courseTitle)
+    chrome.tabs.query
+      active: true
+      lastFocusedWindow: true
+    , (tabs) =>
+        @courseName = tabs[0].url.match(/https?:\/\/class.coursera.org\/([a-zA-Z0-9-]+)\/(\w+)/)[1]
+        chrome.runtime.sendMessage
+          type: "getCourse"
+          courseName: @courseName
+        , (response) =>
+            console.log response
+            if response.courseTitle
+              @courseTitle = response.courseTitle
+              @course_title.text(@courseTitle)
 
   'submit on @score_form': (e) ->
     e.preventDefault()
@@ -40,10 +44,8 @@ evil.block '@@additional_scores',
     if _.reduce([@assignment_name, @assignment_score], (memo, role)=>
       memo && @validateRole(role)
     , true)
-      console.log 'OK'
       true
     else
-      console.log 'NOT OK'
       false
 
   validateRole: (role)->

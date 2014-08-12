@@ -1,24 +1,22 @@
 class DataProcessor
+  coursesHolder: {}
 
   constructor: ->
-    @coursesHolder = {}
-
-    chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
+    chrome.runtime.onMessage.addListener (request, sender, sendResponse) =>
       if request
         switch request.type
           when "showPageAction"
-            @coursesHolder[sender.tab.id] =
+            @coursesHolder[request.courseName] ||=
               courseName: request.courseName
               courseTitle: request.courseTitle
             chrome.pageAction.show(sender.tab.id)
+            break
           when "getCourse"
-            sendResponse
-              courseName: @coursesHolder[sender.tab.id].courseName
-              courseTitle: @coursesHolder[sender.tab.id].courseTitle
+            sendResponse @coursesHolder[request.courseName]
+            break
           else
             sendResponse
               error: 'Unidentified Exception'
-
 
   storeData: (obj) ->
 
