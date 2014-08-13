@@ -24,6 +24,14 @@ evil.block '@@additional_scores',
               @courseTitle = response.courseTitle
               @course_title.text(@courseTitle)
 
+        chrome.runtime.sendMessage
+          type: "getAdditional"
+          courseName: @courseName
+        , (response) =>
+          console.log response
+          if response.additional
+            @appendAssignment(obj, indx) for obj, indx in response.additional
+
   'submit on @score_form': (e) ->
     e.preventDefault()
     if @validateScoreForm()
@@ -32,12 +40,17 @@ evil.block '@@additional_scores',
       digits = _.map(@assignment_score.val().split('/'), (i)->
         Number.parseFloat(i)
         ).sort()
-      # TODO save to storage
       @assignment_score.val("")
       object =
         name: name
         got: digits[0]
         pos: digits[1]
+
+      chrome.runtime.sendMessage
+        type: "storeAdditional"
+        courseName: @courseName
+        additional: object
+
       @appendAssignment(object, 3)
 
   validateScoreForm: ->
@@ -59,7 +72,7 @@ evil.block '@@additional_scores',
       error.text(role.data('error')).slideDown()
       false
 
-  appendAssignment: (obj, indx=0)->
+  appendAssignment: (obj, indx=-1)->
     obj.indx ||= indx
     @scores_list.append($(@itemTemplate(obj)))
     evil.block.vitalize()

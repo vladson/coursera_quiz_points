@@ -38,6 +38,7 @@ class ShowBlock
         else
           memo + i[0]
       , 0)
+      #TODO save to storage
       chrome.storage.local.get @courseName, (datum)=>
         datum[@courseName] ||=
           points:
@@ -47,7 +48,7 @@ class ShowBlock
             assignment:
               pos: 0
               got: 0
-            additional: []
+            additional: [] # { name: 'name', pos: 'pos', got: 'got' }
         if @pos && @got
           datum[@courseName].points[@pointsType] =
             pos: @pos
