@@ -15,7 +15,11 @@ class DataProcessor
           when "getCourse"
             sendResponse @coursesHolder[request.courseName]
             break
-          when "getAdditional" then @getAdditional(request.courseName, sendResponse)
+          when "getAdditional"
+            chrome.storage.local.get request.courseName, (datum) =>
+              sendResponse
+                additional: datum[request.courseName].points.additional
+            break
           when "storeAdditional"
             @storeAdditional(request.additional, request.courseName)
             break
