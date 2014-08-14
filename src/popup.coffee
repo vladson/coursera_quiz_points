@@ -1,5 +1,7 @@
 evil.block '@@additional_scores',
 
+  itemIndex: 0
+
   itemTemplate: (obj) ->
     "
       <li data-block=\"score_item\">
@@ -7,6 +9,11 @@ evil.block '@@additional_scores',
           <a data-role=\"close\" class=\"close_btn\"></a>
         <span>#{obj.name}</span>: <span>#{obj.got}/#{obj.pos}</span>
       </li>
+    "
+
+  scoreTemplate: (obj) ->
+    "
+      Your total score is #{obj.got} out of #{obj.pos} possible, which is #{obj.percent}%.
     "
 
   init: ->
@@ -19,7 +26,6 @@ evil.block '@@additional_scores',
           type: "getCourse"
           courseName: @courseName
         , (response) =>
-            console.log response
             if response.courseTitle
               @courseTitle = response.courseTitle
               @course_title.text(@courseTitle)
@@ -28,9 +34,12 @@ evil.block '@@additional_scores',
           type: "getAdditional"
           courseName: @courseName
         , (response) =>
-          console.log response
           if response.additional
             @appendAssignment(obj, indx) for obj, indx in response.additional
+
+        @displayCalculated()
+        chrome.storage.onChanged.addListener =>
+          @displayCalculated()
 
   'submit on @score_form': (e) ->
     e.preventDefault()
@@ -51,7 +60,14 @@ evil.block '@@additional_scores',
         courseName: @courseName
         additional: object
 
-      @appendAssignment(object, 3)
+      @appendAssignment(object, @itemIndex + 1)
+
+  'on remove-additional': (e, indx) ->
+    chrome.runtime.sendMessage
+      type: 'removeAdditional'
+      courseName: @courseName
+      index: indx
+
 
   validateScoreForm: ->
     if _.reduce([@assignment_name, @assignment_score], (memo, role)=>
@@ -65,7 +81,6 @@ evil.block '@@additional_scores',
     error = $(role.parent().find('.error'))
     error.hide()
     re = new RegExp role.data('regex')
-    console.log re, role.val(), re.test(role.val())
     if re.test(role.val())
       true
     else
@@ -76,7 +91,14 @@ evil.block '@@additional_scores',
     obj.indx ||= indx
     @scores_list.append($(@itemTemplate(obj)))
     evil.block.vitalize()
+    @itemIndex = obj.indx
 
+  displayCalculated: ->
+    chrome.runtime.sendMessage
+      type: "calculatePoints"
+      courseName: @courseName
+    , (response) =>
+      @score_display.text(@scoreTemplate(response))
 
 evil.block '@@score_item',
 
@@ -84,4 +106,4 @@ evil.block '@@score_item',
     e.preventDefault()
     indx = @index.data('index')
     @block.remove()
-    #TODO remove from storage
+    $('@@additional_scores').trigger('remove-additional', indx)
