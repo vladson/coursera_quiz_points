@@ -13,6 +13,7 @@ In order to compile the following procedure is appropriate
 - run ``cd coursera_quiz_plugin``
 - run ``npm install coffee-script -g``
 - run ``npm install mocha should``
+- run ``npm install archiver --save``
 - run `cake build` to output Javascript for Coffeescript files
 - open Chrome's extension tab
 - click "Load unpacked extension"

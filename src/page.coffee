@@ -8,6 +8,15 @@ class ShowBlock
                     Current percent: <span class=\"show_block__percent\">0</span>%
                 </li>"
 
+  @waitForDom: (selector) ->
+    if $(selector).length
+      new ShowBlock
+    else
+      setTimeout ->
+        ShowBlock.waitForDom(selector)
+      , 200
+
+
   constructor: ->
       params = document.URL.match(/https?:\/\/class.coursera.org\/([a-zA-Z0-9-]+)\/(\w+)/).slice(1,3)
       @courseName = params[0]
@@ -68,6 +77,4 @@ class ShowBlock
             Number.parseFloat j
         )
 
-setTimeout ->
-    new ShowBlock
-  , 5000
+ShowBlock.waitForDom("#origami .course-navbar-container")

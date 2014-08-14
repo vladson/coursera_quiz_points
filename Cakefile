@@ -1,6 +1,7 @@
 fs    = require 'fs'
 path  = require 'path'
 spawn = require('child_process').spawn
+archiver = require('archiver');
 
 ROOT_PATH           = __dirname
 COFFEESCRIPTS_PATH  = path.join(ROOT_PATH, '/src')
@@ -49,3 +50,33 @@ task 'test', ->
 
     ps.stdout.on("data", log)
     ps.stderr.on("data", log)
+
+task 'compress', 'Package a zip for Google Chrome Store', ->
+  console.log 'Creating package'
+  output = fs.createWriteStream "extension.zip"
+  archive = archiver('zip')
+  output.on 'close', ->
+    console.log archive.pointer() + ' total bytes'
+    console.log 'extension.zip is ready'
+  archive.on 'error', (err) ->
+    throw err
+  archive.pipe(output);
+  archive.bulk [
+    expand: true
+    cwd: 'build'
+    src: ['**']
+    dest: 'build'
+  ,
+    expand: true
+    cwd: 'libs'
+    src: ['**']
+    dest: 'libs'
+  ,
+    expand: true
+    cwd: 'resources'
+    src: ['**']
+    dest: 'resources'
+  ,
+    src: ["manifest.json", "popup.html", "LICENSE"]
+  ]
+  archive.finalize();

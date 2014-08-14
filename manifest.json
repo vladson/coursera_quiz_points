@@ -3,6 +3,7 @@
     "name": "Coursera score",
     "description": "This extension gives you ability to sum points that you gained from quizzes and assignments taken and calculate your rate.",
     "version": "1.0",
+    "author": "Vladislav Bogomolov <vladson4ik@gmail.com>",
 
     "permissions": [
         "activeTab", "https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz", "storage"

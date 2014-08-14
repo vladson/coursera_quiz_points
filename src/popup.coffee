@@ -30,15 +30,11 @@ evil.block '@@additional_scores',
               @courseTitle = response.courseTitle
               @course_title.text(@courseTitle)
 
-        chrome.runtime.sendMessage
-          type: "getAdditional"
-          courseName: @courseName
-        , (response) =>
-          if response.additional
-            @appendAssignment(obj, indx) for obj, indx in response.additional
-
+        @renderAdditional()
         @displayCalculated()
         chrome.storage.onChanged.addListener =>
+          @scores_list.html("")
+          @renderAdditional()
           @displayCalculated()
 
   'submit on @score_form': (e) ->
@@ -59,15 +55,14 @@ evil.block '@@additional_scores',
         type: "storeAdditional"
         courseName: @courseName
         additional: object
-
       @appendAssignment(object, @itemIndex + 1)
+      @assignment_name.focus()
 
   'on remove-additional': (e, indx) ->
     chrome.runtime.sendMessage
       type: 'removeAdditional'
       courseName: @courseName
       index: indx
-
 
   validateScoreForm: ->
     if _.reduce([@assignment_name, @assignment_score], (memo, role)=>
@@ -92,6 +87,15 @@ evil.block '@@additional_scores',
     @scores_list.append($(@itemTemplate(obj)))
     evil.block.vitalize()
     @itemIndex = obj.indx
+
+  renderAdditional: ->
+    chrome.runtime.sendMessage
+      type: "getAdditional"
+      courseName: @courseName
+    , (response) =>
+      if response.additional
+        @appendAssignment(obj, indx) for obj, indx in response.additional
+
 
   displayCalculated: ->
     chrome.runtime.sendMessage
