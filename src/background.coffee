@@ -31,7 +31,7 @@ class DataProcessor
             return true
           else
             sendResponse
-              error: 'Unidentified Exception'
+              error: 'Unidentified Action'
 
   retrieveStorage: (courseName, callback) ->
     chrome.storage.sync.get courseName, (datum) =>
