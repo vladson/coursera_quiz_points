@@ -35,18 +35,17 @@ ul li {
 }
 .close_btn {
     cursor:pointer;
-    color: #ff4060;
-    border: 1px solid #605F61;
+    color: #aaa;
+    border: 1px solid #adacae;
     border-radius: 14px;
     background: #ffffff;
     font-weight: bold;
-    display: none;
     width: 11px;
     height: 14px;
     position: absolute;
     top: -7px;
     right: -7px;
-    line-height: 1em;
+    line-height: .85em;
     padding: 0 0 0 3px;
 }
 
@@ -55,7 +54,8 @@ ul li {
 }
 
 ul li:hover .close_btn {
-    display: block;
+    color: #ff4060;
+    border: 1px solid #605F61;
 }
 
 .error {

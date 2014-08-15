@@ -4,6 +4,12 @@
     "description": "This extension gives you ability to sum points that you gained from quizzes and assignments taken and calculate your rate.",
     "version": "1.0",
     "author": "Vladislav Bogomolov <vladson4ik@gmail.com>",
+    "icons": {
+        "16": "resources/icon_16.png",
+        "48": "resources/icon_48.png",
+        "64": "resources/icon_64.png",
+        "128": "resources/icon_128.png"
+    },
 
     "permissions": [
         "activeTab", "https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz", "storage"
@@ -12,8 +18,7 @@
         {
             "js": ["libs/jquery-2.1.1.min.js", "libs/underscore-min.js", "build/page.js"],
             "matches": ["https://class.coursera.org/*/quiz", "http://class.coursera.org/*/quiz",
-                "https://class.coursera.org/*/assignment", "http://class.coursera.org/*/assignment"],
-            "css": ["resources/page.css"]
+                "https://class.coursera.org/*/assignment", "http://class.coursera.org/*/assignment"]
         }
     ],
     "background": {
@@ -21,7 +26,7 @@
     },
     "page_action": {
         "default_name": "Calculate your score",
-        "default_icon": "resources/icon.png",
+        "default_icon": "resources/icon_64_transparent.png",
         "default_popup": "popup.html"
     }
 }

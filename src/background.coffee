@@ -34,7 +34,7 @@ class DataProcessor
               error: 'Unidentified Exception'
 
   retrieveStorage: (courseName, callback) ->
-    chrome.storage.local.get courseName, (datum) =>
+    chrome.storage.sync.get courseName, (datum) =>
       datum[courseName] ||=
         points:
           quiz:
@@ -70,7 +70,7 @@ class DataProcessor
     space = {}
     space[courseName] =
       points: points
-    chrome.storage.local.set space
+    chrome.storage.sync.set space
 
   calculatePoints: (courseName, sendResponse) ->
     @retrieveStorage courseName, (points) =>
