@@ -44,13 +44,6 @@ task 'watch', 'Build extension code into build/', ->
         console.log 'failed'
       console.log stdout
 
-task 'test', ->
-  if_coffee ->
-    ps = spawn("mocha", ["--compilers", "coffee:coffee-script", "tests/"])
-
-    ps.stdout.on("data", log)
-    ps.stderr.on("data", log)
-
 task 'compress', 'Package a zip for Google Chrome Store', ->
   console.log 'Creating package'
   output = fs.createWriteStream "extension.zip"
